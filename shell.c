@@ -31,7 +31,7 @@ int main(int argc, char *argv[], char *envp[])
 
     	if (isatty(STDIN_FILENO))
 		{
-        	printf("($) ");
+        	printf("✿ ");
 		}
 		_getline(&command, &size);
 
