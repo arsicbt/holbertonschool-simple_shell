@@ -11,5 +11,8 @@
 #include <sys/wait.h>
 
 int execute(char *command[], char **envp);
+char **pathfind(char *cmd, char **command, char **envp);
+char *_getenv(const char *name, char **envp);
+void _getline(char **command, size_t *size);
 
 #endif
