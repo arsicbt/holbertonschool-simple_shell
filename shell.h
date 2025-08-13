@@ -11,5 +11,6 @@
 #include <sys/wait.h>
 
 int execute(char *command[], char **envp);
+void _getline(char **command, size_t *size);
 
 #endif

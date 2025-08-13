@@ -1,9 +1,10 @@
-#include "main.h"
+#include "shell.h"
 
 int main(int argc, char *argv[], char *envp[])
 {
 	size_t size;
 	char *command = NULL;
+    pid_t pid;
 
 	(void) argv;
 	while (1)
@@ -15,7 +16,7 @@ int main(int argc, char *argv[], char *envp[])
         	printf("✿ ");
 		}
 		_getline(&command, &size);
-
+        execute(&command, envp);
 	}
 	return (0);
 }
