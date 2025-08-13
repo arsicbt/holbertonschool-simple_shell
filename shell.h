@@ -10,4 +10,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+int execute(char *command[], char **envp);
+
 #endif
