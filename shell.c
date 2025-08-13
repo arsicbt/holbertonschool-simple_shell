@@ -19,22 +19,4 @@ void _getline(char **command, size_t *size)
 	}
 }
 
-int main(int argc, char *argv[], char *envp[])
-{
-	size_t size;
-	char *command = NULL;
 
-	(void) argv;
-	while (1)
-	{
-    	size = 0;
-
-    	if (isatty(STDIN_FILENO))
-		{
-        	printf("✿ ");
-		}
-		_getline(&command, &size);
-
-	}
-	return (0);
-}
