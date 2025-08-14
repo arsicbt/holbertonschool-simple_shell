@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int main(int argc, char *argv[], char *envp[])
+int main(int __attribute__((unused)) argc, char *argv[], char *envp[])
 {
 	size_t size;
 	char *command = NULL;
@@ -14,8 +14,7 @@ int main(int argc, char *argv[], char *envp[])
 		{
         	printf("✿  ");
 		}
-		_getline(&command, &size);
-        execute(&command, envp);
+		_getline(&command, &size, *envp);
 	}
 	return (0);
 }
