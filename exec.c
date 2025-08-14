@@ -5,7 +5,7 @@
  * @command: the command to insert in the message
  *
  * Return: void
- */
+ */ 
 
 void print_error(char *command[])
 {

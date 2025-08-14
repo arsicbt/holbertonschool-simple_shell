@@ -1,22 +1,21 @@
 #include "shell.h"
 
-void _getline(char **command, size_t *size)
+int main(int argc, char *argv[], char *envp[])
 {
-	size_t size_byte;
+	size_t size;
+	char *command = NULL;
 
-	size_byte = getline(command, size, stdin);
-	if ((int) size_byte == EOF)
+	(void) argv;
+	while (1)
 	{
-		if (isatty(STDIN_FILENO) != 0)
+    	size = 0;
+
+    	if (isatty(STDIN_FILENO))
 		{
-			printf("\n");
+        	printf("✿  ");
 		}
-		if (*command != NULL)
-		{
-			free(*command);
-		}
-		exit(EXIT_SUCCESS);
+		_getline(&command, &size);
+        execute(&command, envp);
 	}
+	return (0);
 }
-
-
