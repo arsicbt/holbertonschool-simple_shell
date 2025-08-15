@@ -14,8 +14,7 @@ int main(int argc, char *argv[], char *envp[])
 		{
         	printf("✿  ");
 		}
-		_getline(&command, &size);
-        execute(&command, envp);
+		_getline(&command, &size, envp);
 	}
 	return (0);
 }

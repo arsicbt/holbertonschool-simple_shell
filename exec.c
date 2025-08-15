@@ -51,7 +51,6 @@ char **pathfind(char *cmd, char **command, char **envp)
 {
 	char *fullpath = NULL, *current_path, *temp_path, *tokken_path;
 
-
 	if (strchr(cmd, '/') != NULL && access(cmd, F_OK) == 0)
 	{
 		command[0] = cmd;
@@ -89,6 +88,7 @@ int execute(char *command[], char **envp)
 {
 	pid_t pid;
 	int status;
+	int i;
 	char **temp = pathfind(command[0], command, envp);
 
 	if (temp != NULL)
