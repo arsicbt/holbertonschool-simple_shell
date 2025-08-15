@@ -1,10 +1,17 @@
 #include "shell.h"
 
 /**
- * print_error - print an error message
- * @command: the command to insert in the message
+ * print_error - Prints a standard error message when a command is not found
  *
- * Return: void
+ * This function:
+ * - Displays an error message to the standard error stream (stderr),
+ *   indicating that the given command could not be found
+ * - The message format matches the common shell error style
+ *
+ * Parameters:
+ * @command: An array of strings where command[0] is the name of the command
+ *
+ * Return: standard exit status: 127
  */
 
 int print_error(char *command[])
@@ -13,12 +20,49 @@ int print_error(char *command[])
 	return (127);
 }
 
+/**
+ * print_env - Prints the environment variables to standard output.
+ *
+ * This function:
+ * - Iterates through the array of environment variables.
+ * - Prints each variable on a new line using printf().
+ *
+ * Parameters:
+ * @envp: A NULL-terminated array of strings containing environment variables.
+ *
+ * Return:
+ * - 0 on success.
+ * - -1 if the envp array is NULL.
+ */
+
+int print_env(char **envp)
+{
+	int i = 0;
+
+	if (envp == NULL)
+		return (-1);
+	while (envp[i])
+	{
+		printf("%s\n", envp[i++]);
+	}
+	return (0);
+}
 
 /**
- * _getenv - get environment variable
- * @name: name of environment variable
- * @envp: pointer to environment variables
- * Return: pointer to environment variable
+ * _getenv - Retrieves the value of an environment variable.
+ *
+ * This function:
+ * - Iterates through the given environment variable array
+ * - Looks for a variable that matches the provided name.
+ * - If found, returns a pointer to the value part
+ *
+ * Parameters:
+ * @name: The name of the environment variable to search for
+ * @envp: The environment variables array
+ *
+ * Return:
+ * - A pointer to the value of the variable if found
+ * - NULL if the variable is not found or if envp is invalid.
  */
 
 char *_getenv(const char *name, char **envp)

@@ -39,12 +39,23 @@ void _getline(char *command[], size_t *size, char **envp)
 		}
 		exit(EXIT_SUCCESS);
 	}
-	
+
 	if (p)
 	{
 		*p = '\0';
 	}
 
+	if (strcmp(*command, "exit") == 0)
+	{
+		free(*command);
+		exit(EXIT_SUCCESS);
+	}
+	if (strcmp(command, "env") == 0)
+	{
+		print_env(envp);
+		free(command);
+		exit(EXIT_SUCCESS);
+	}
 	token = strtok(*command, " ");
 	while (token != NULL && i < 63)
 	{

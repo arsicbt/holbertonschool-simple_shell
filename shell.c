@@ -26,6 +26,11 @@ int main(int argc, char *argv[], char *envp[])
 
 	size = 0;
 
+	if (argc > 1)
+	{
+		printf("./shell: command does not exist\n");
+		exit(EXIT_FAILURE);
+	}
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
@@ -34,7 +39,5 @@ int main(int argc, char *argv[], char *envp[])
 			_getline(&command, &size, envp);
 		}
 	}
-	
-	free(command);
 	return (0);
 }
