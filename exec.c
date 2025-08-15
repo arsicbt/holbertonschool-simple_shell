@@ -10,7 +10,6 @@
 int print_error(char *command[])
 {
 	fprintf(stderr, "./hsh: 1: %s: not found\n", command[0]);
-	free(*command);
 	return (127);
 }
 
@@ -41,13 +40,29 @@ char *_getenv(const char *name, char **envp)
 }
 
 /**
- * pathfind - find the correct path for given input
- * @command: given input to chack for path
- * @cmd: argument
- * @envp: pointer to environment variables
+ * pathfind - Resolves the full path of a given command
+ * using the PATH environment variable.
  *
- * Return: a pointer to the string array or NULL if failed
+ * This function:
+ * - Checks if the command contains a '/' and is directly accessible
+ *     - If so, it returns the original command unchanged.
+ * - Otherwise, it retrieves the PATH environment variable using _getenv()
+ * - It tokenizes the PATH using ':' as a delimiter.
+ * - For each directory in PATH, it builds a full path by appending '/' + cmd
+ *     - If the built path exists, it updates command[0]
+ *       to point to this full path and returns the updated command array
+ * - If no valid path is found, it returns NULL
+ *
+ * Parameters:
+ * @cmd: The command name
+ * @command: The array of command arguments
+ * @envp: Array of environment variables
+ *
+ * Return:
+ * - If a valid full path is found: returns the modified command array
+ * - If not found: returns NULL
  */
+
 char **pathfind(char *cmd, char **command, char **envp)
 {
 	char *fullpath = NULL, *current_path, *temp_path, *tokken_path;
@@ -79,10 +94,25 @@ char **pathfind(char *cmd, char **command, char **envp)
 }
 
 /**
- * execute - function to execute commands
- * @command: input froom user
- * @envp: enviroment path
- * Return: -1 if failed and 0 if success
+ * execute - Executes a command using fork and execve.
+ *
+ * This function:
+ * - Tries to resolve the command's full path using pathfind()
+ * - If a valid path is found:
+ *     - It creates a child process using fork()
+ *     - In the child process:
+ *         - It checks if PATH is set and if the command is accessible
+ *         - If not accessible, it calls print_error()
+ *         - It then attempts to execute the command using execve()
+ *         - If execve() fails, it prints an error and exits
+ *     - The parent process waits for the child to finish
+ * - If the command path is not found, it calls print_error()
+ *
+ * Parameters:
+ * @command: Array of strings representing the command and its arguments
+ * @envp: Array of environment variables
+ *
+ * Return: Always returns 0
  */
 
 int execute(char *command[], char **envp)
