@@ -19,7 +19,7 @@
  * Return: void (but calls exit() on EOF)
  */
 
-void _getline(char *command[], size_t *size, char **envp)
+void _getline(char **command, size_t *size, char **envp, char *prog_name)
 {
 	ssize_t read_len = getline(command, size, stdin);
 	char *p = strchr(*command, '\n'), *token, *args_cmd[64];
@@ -58,5 +58,5 @@ void _getline(char *command[], size_t *size, char **envp)
 	args_cmd[i] = NULL;
 
 	if (i > 0)
-		execute(args_cmd, envp);
+		execute(args_cmd, envp, prog_name);
 }

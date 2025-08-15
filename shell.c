@@ -1,5 +1,4 @@
 #include "shell.h"
-char *prog_name;
 
 /**
  * main - Entry point of a simple shell-like program.
@@ -25,11 +24,10 @@ int main(int argc, char *argv[], char *envp[])
 	(void) argc;
 
 	size = 0;
-	prog_name = argv[0];
 
 	if (argc > 1)
 	{
-		printf("./shell: command does not exist\n");
+		printf("%s: command does not exist\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 	while (1)
@@ -37,7 +35,7 @@ int main(int argc, char *argv[], char *envp[])
 		if (isatty(STDIN_FILENO))
 		{
 			printf("✿  ");
-			_getline(&command, &size, envp);
+			_getline(&command, &size, envp, argv[0]);
 		}
 	}
 	return (0);

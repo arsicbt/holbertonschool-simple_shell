@@ -14,7 +14,7 @@
  * Return: standard exit status: 127
  */
 
-int print_error(char *command[])
+int print_error(char *prog_name, char *command[])
 {
 	fprintf(stderr, "%s: 1: %s: not found\n", prog_name, command[0]);
 	return (127);
@@ -159,7 +159,7 @@ char **pathfind(char *cmd, char **command, char **envp)
  * Return: Always returns 0
  */
 
-int execute(char *command[], char **envp)
+int execute(char *command[], char **envp, char *prog_name)
 {
 	pid_t pid;
 	int status;
@@ -177,7 +177,7 @@ int execute(char *command[], char **envp)
 		{
 			if (_getenv("PATH", envp) == NULL && access(command[0], F_OK) != 0)
 			{
-				print_error(command);
+				return print_error(prog_name, command);
 			}
 			if (execve(temp[0], command, envp) == -1)
 			{
@@ -189,7 +189,7 @@ int execute(char *command[], char **envp)
 	}
 	else
 	{
-		print_error(command);
+		return print_error(prog_name, command);
 	}
 	return (0);
 }
