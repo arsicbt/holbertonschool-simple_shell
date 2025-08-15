@@ -20,10 +20,10 @@ int main(int argc, char *argv[], char *envp[])
 {
 	size_t size;
 	char *command = NULL;
-	int status;
 
 	(void) argc;
 	(void) argv;
+
 	size = 0;
 
 	while (1)
@@ -34,6 +34,7 @@ int main(int argc, char *argv[], char *envp[])
 			_getline(&command, &size, envp);
 		}
 	}
+	
 	free(command);
 	return (0);
 }

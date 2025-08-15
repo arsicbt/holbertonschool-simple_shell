@@ -39,10 +39,12 @@ void _getline(char *command[], size_t *size, char **envp)
 		}
 		exit(EXIT_SUCCESS);
 	}
+	
 	if (p)
 	{
 		*p = '\0';
 	}
+
 	token = strtok(*command, " ");
 	while (token != NULL && i < 63)
 	{
