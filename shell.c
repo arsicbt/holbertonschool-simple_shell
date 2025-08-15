@@ -35,8 +35,9 @@ int main(int argc, char *argv[], char *envp[])
 		if (isatty(STDIN_FILENO))
 		{
 			printf("✿  ");
-			_getline(&command, &size, envp, argv[0]);
+			fflush(stdout);
 		}
+		read_command(&command, &size, envp, argv[0]);
 	}
 	return (0);
 }

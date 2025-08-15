@@ -14,7 +14,7 @@ int execute(char *command[], char **envp, char *prog_name);
 char **pathfind(char *cmd, char **command, char **envp);
 char *_getenv(const char *name, char **envp);
 int print_env(char **envp);
-void _getline(char **command, size_t *size, char **envp, char *prog_name);
+void read_command(char **command, size_t *size, char **envp, char *prog_name);
 int print_error(char *prog_name, char *command[]);
 
 #endif

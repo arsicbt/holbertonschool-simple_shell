@@ -19,25 +19,25 @@
  * Return: void (but calls exit() on EOF)
  */
 
-void _getline(char **command, size_t *size, char **envp, char *prog_name)
+void read_command(char **command, size_t *size, char **envp, char *prog_name)
 {
-	ssize_t read_len = getline(command, size, stdin);
-	char *p = strchr(*command, '\n'), *token, *args_cmd[64];
-	int i = 0;
+	ssize_t read_len;
+	char *args_cmd[2];
 
-	if (read_len == EOF)
+	/*if (isatty(STDIN_FILENO))
+        printf("✿  ");
+    fflush(stdout);*/
+
+    read_len = getline(command, size, stdin);
+	if (read_len == -1)
 	{
 		if (isatty(STDIN_FILENO) != 0)
 			printf("\n");
-
-		if (*command != NULL)
-		{
-			free(*command);
-		}
+		free(*command);
 		exit(EXIT_SUCCESS);
 	}
-	if (p)
-		*p = '\0';
+	if ((*command)[read_len - 1] == '\n')
+        (*command)[read_len - 1] = '\0';
 
 	if (strcmp(*command, "exit") == 0)
 	{
@@ -47,16 +47,13 @@ void _getline(char **command, size_t *size, char **envp, char *prog_name)
 	if (strcmp(*command, "env") == 0)
 	{
 		print_env(envp);
+		return;
 	}
-	token = strtok(*command, " ");
-	while (token != NULL && i < 63)
-	{
-		args_cmd[i] = token;
-		i++;
-		token = strtok(NULL, " ");
-	}
-	args_cmd[i] = NULL;
+	if ((*command)[0] != '\0')
+    {
+        args_cmd[0] = *command;
+        args_cmd[1] = NULL;
 
-	if (i > 0)
-		execute(args_cmd, envp, prog_name);
+        execute(args_cmd, envp, prog_name);
+    }
 }
