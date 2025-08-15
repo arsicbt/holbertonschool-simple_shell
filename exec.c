@@ -14,6 +14,7 @@ void print_error(char *command[])
 	exit(127);
 }
 
+
 /**
  * _getenv - get environment variable
  * @name: name of environment variable

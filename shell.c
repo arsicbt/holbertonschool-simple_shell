@@ -4,6 +4,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	size_t size;
 	char *command = NULL;
+	int status;
 
 	(void) argc;
 	(void) argv;
