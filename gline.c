@@ -18,7 +18,7 @@ void _getline(char *command[], size_t *size, char **envp)
 		{
 			free(*command);
 		}
-		//execute(args_cmd, envp);
+		/*execute(args_cmd, envp);*/
 		exit(EXIT_SUCCESS);
 	}
 	if (p)

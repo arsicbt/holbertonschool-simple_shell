@@ -5,7 +5,7 @@
  * @command: the command to insert in the message
  *
  * Return: void
- */ 
+ */
 
 void print_error(char *command[])
 {
@@ -88,7 +88,6 @@ int execute(char *command[], char **envp)
 {
 	pid_t pid;
 	int status;
-	int i;
 	char **temp = pathfind(command[0], command, envp);
 
 	if (temp != NULL)
