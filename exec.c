@@ -7,11 +7,11 @@
  * Return: void
  */
 
-void print_error(char *command[])
+int print_error(char *command[])
 {
 	fprintf(stderr, "./hsh: 1: %s: not found\n", command[0]);
 	free(*command);
-	exit(127);
+	return (127);
 }
 
 
