@@ -22,28 +22,22 @@
 void _getline(char *command[], size_t *size, char **envp)
 {
 	ssize_t read_len = getline(command, size, stdin);
-	char *p = strchr(*command, '\n');
-	char *token;
-	char *args_cmd[64];
+	char *p = strchr(*command, '\n'), *token, *args_cmd[64];
 	int i = 0;
 
 	if (read_len == EOF)
 	{
 		if (isatty(STDIN_FILENO) != 0)
-		{
 			printf("\n");
-		}
+
 		if (*command != NULL)
 		{
 			free(*command);
 		}
 		exit(EXIT_SUCCESS);
 	}
-
 	if (p)
-	{
 		*p = '\0';
-	}
 
 	if (strcmp(*command, "exit") == 0)
 	{
