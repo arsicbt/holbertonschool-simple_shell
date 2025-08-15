@@ -44,10 +44,10 @@ void _getline(char *command[], size_t *size, char **envp)
 		free(*command);
 		exit(EXIT_SUCCESS);
 	}
-	if (strcmp(command, "env") == 0)
+	if (strcmp(*command, "env") == 0)
 	{
 		print_env(envp);
-		free(command);
+		free(*command);
 		exit(EXIT_SUCCESS);
 	}
 	token = strtok(*command, " ");
