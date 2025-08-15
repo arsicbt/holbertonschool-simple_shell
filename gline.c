@@ -23,7 +23,8 @@
 void read_command(char **command, size_t *size, char **envp, char *prog_name)
 {
 	ssize_t read_len;
-	char *args_cmd[2];
+	char *args_cmd[2], *token;
+	int i;
 
 	read_len = getline(command, size, stdin);
 	if (read_len == -1)
@@ -48,8 +49,15 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 	}
 	if ((*command)[0] != '\0')
 	{
-		args_cmd[0] = *command;
-		args_cmd[1] = NULL;
+		token = strtok(*command, " ");
+		i = 0;
+		while (token != NULL && i < 2)
+		{
+			args_cmd[i] = token;
+			i++;
+			token = strtok(NULL, " ");
+		}
+        args_cmd[i] = NULL;
 
 		execute(args_cmd, envp, prog_name);
 	}
