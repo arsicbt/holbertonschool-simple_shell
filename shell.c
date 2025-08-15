@@ -1,4 +1,5 @@
 #include "shell.h"
+char *prog_name;
 
 /**
  * main - Entry point of a simple shell-like program.
@@ -20,11 +21,11 @@ int main(int argc, char *argv[], char *envp[])
 {
 	size_t size;
 	char *command = NULL;
-
+	
 	(void) argc;
-	(void) argv;
 
 	size = 0;
+	prog_name = argv[0];
 
 	if (argc > 1)
 	{

@@ -10,6 +10,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+extern char *prog_name;
+
 int execute(char *command[], char **envp);
 char **pathfind(char *cmd, char **command, char **envp);
 char *_getenv(const char *name, char **envp);

@@ -16,7 +16,7 @@
 
 int print_error(char *command[])
 {
-	fprintf(stderr, "./hsh: 1: %s: not found\n", command[0]);
+	fprintf(stderr, "%s: 1: %s: not found\n", prog_name, command[0]);
 	return (127);
 }
 
