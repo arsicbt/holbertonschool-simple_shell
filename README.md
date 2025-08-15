@@ -1,7 +1,7 @@
 # Simple Shell – Projet en C 🐚
 
 ## 👩‍💻 Présentation
-Nous sommes deux étudiants en d’informatique, **Mathis et Arsinoé**, et voici notre **premier projet d’école à HOLBERTON School**.    
+Nous sommes deux étudiants en d’informatique, **Matis et Arsinoé**, et voici notre **premier projet d’école à HOLBERTON School**.    
 L’objectif de ce projet était de créer un mini interpréteur de commandes pour Unix, afin de mieux comprendre le fonctionnement interne d’un terminal et la gestion des processus en C.
 
 
@@ -75,4 +75,4 @@ C’est la plus gros projet que nous avons réalisé en binôme (pour l'instant 
 Nous espérons que ce mini shell vous donnera un aperçu clair de notre travail et de notre approche méthodique.
 
 
-**Mathis et Arsinoé**
+**Matis et Arsinoé**
