@@ -1,5 +1,24 @@
 #include "shell.h"
 
+/**
+ * _getline - Reads a line from standard input and executes the command
+ *
+ * This function:
+ * - Removes the newline character if present
+ * - Splits the command into tokens (arguments) using strtok
+ * - Stores the tokens into an array (args_cmd)
+ * - If the input is EOF (Ctrl+D), it handles cleanup and exits
+ * - If at least one argument is parsed, it calls the execute() function
+ *   to run the command with the given environment
+ *
+ * Parameters:
+ * @command: Pointer to a buffer containing the user's input
+ * @size: Pointer to a variable holding the size of the buffer
+ * @envp: Environment variables passed to the execute() function
+ *
+ * Return: void (but calls exit() on EOF)
+ */
+
 void _getline(char *command[], size_t *size, char **envp)
 {
 	ssize_t read_len = getline(command, size, stdin);
@@ -21,8 +40,9 @@ void _getline(char *command[], size_t *size, char **envp)
 		exit(EXIT_SUCCESS);
 	}
 	if (p)
-    	*p = '\0';
-
+	{
+		*p = '\0';
+	}
 	token = strtok(*command, " ");
 	while (token != NULL && i < 63)
 	{
@@ -32,6 +52,6 @@ void _getline(char *command[], size_t *size, char **envp)
 	}
 	args_cmd[i] = NULL;
 
-    if (i > 0)
-        execute(args_cmd, envp);
+	if (i > 0)
+		execute(args_cmd, envp);
 }
