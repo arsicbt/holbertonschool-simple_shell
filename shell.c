@@ -20,7 +20,6 @@ int main(int argc, char *argv[], char *envp[])
 {
 	size_t size;
 	char *command = NULL;
-	
 	(void) argc;
 
 	size = 0;

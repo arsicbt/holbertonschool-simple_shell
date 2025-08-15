@@ -9,6 +9,7 @@
  * - The message format matches the common shell error style
  *
  * Parameters:
+ * @prog_name: Name of the executing program
  * @command: An array of strings where command[0] is the name of the command
  *
  * Return: standard exit status: 127
@@ -155,6 +156,7 @@ char **pathfind(char *cmd, char **command, char **envp)
  * Parameters:
  * @command: Array of strings representing the command and its arguments
  * @envp: Array of environment variables
+ * @prog_name: Name of the executing program
  *
  * Return: Always returns 0
  */
@@ -177,7 +179,7 @@ int execute(char *command[], char **envp, char *prog_name)
 		{
 			if (_getenv("PATH", envp) == NULL && access(command[0], F_OK) != 0)
 			{
-				return print_error(prog_name, command);
+				return (print_error(prog_name, command));
 			}
 			if (execve(temp[0], command, envp) == -1)
 			{
@@ -189,7 +191,7 @@ int execute(char *command[], char **envp, char *prog_name)
 	}
 	else
 	{
-		return print_error(prog_name, command);
+		return (print_error(prog_name, command));
 	}
 	return (0);
 }
