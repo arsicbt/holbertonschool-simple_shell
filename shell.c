@@ -24,7 +24,7 @@ int main(int argc, char *argv[], char *envp[])
 
 	size = 0;
 
-	if (argc > 1)
+	if (argc > 1 )
 	{
 		printf("%s: command does not exist\n", argv[0]);
 		exit(EXIT_FAILURE);
@@ -33,7 +33,7 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		if (isatty(STDIN_FILENO))
 		{
-			printf("$ ");
+			printf("✿ ");
 			fflush(stdout);
 		}
 		read_command(&command, &size, envp, argv[0]);

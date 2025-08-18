@@ -1,5 +1,20 @@
 #include "shell.h"
 
+int space_tab(char *str)
+{
+	int i = 0;
+
+	if (str == NULL)
+		return (1);
+
+	while (str[i] != '\0')
+	{
+			if (str[i] != ' ' && str[i] != '\t')
+				return (0);
+			i++;
+	}
+	return (1);
+}
 /**
  * read_command - Reads a line from standard input and executes the command
  *
@@ -45,6 +60,10 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 	if (strcmp(*command, "env") == 0)
 	{
 		print_env(envp);
+		return;
+	}
+	if (space_tab(*command))
+	{
 		return;
 	}
 	if ((*command)[0] != '\0')
