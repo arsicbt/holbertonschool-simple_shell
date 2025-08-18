@@ -38,7 +38,7 @@ int space_tab(char *str)
 void read_command(char **command, size_t *size, char **envp, char *prog_name)
 {
 	ssize_t read_len;
-	char *args_cmd[2], *token;
+	char *args_cmd[20], *token;
 	int i;
 
 	read_len = getline(command, size, stdin);
@@ -70,7 +70,7 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 	{
 		token = strtok(*command, " ");
 		i = 0;
-		while (token != NULL && i < 2)
+		while (token != NULL && i < 20)
 		{
 			args_cmd[i] = token;
 			i++;
