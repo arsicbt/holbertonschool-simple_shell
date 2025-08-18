@@ -187,8 +187,14 @@ int execute(char *command[], char **envp, char *prog_name)
 				exit(EXIT_FAILURE);
 			}
 		}
-		wait(&status);
-	}
+		else if (pid > 0)
+		{
+			wait(&status);
+			if (strchr(command[0], '/'))
+				free(command[0]);
+		}
+		
+		}
 	else
 	{
 		return (print_error(prog_name, command));
