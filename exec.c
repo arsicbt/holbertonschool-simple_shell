@@ -108,31 +108,45 @@ char *_getenv(const char *name, char **envp)
  * - If not found: returns NULL
  */
 
-char **pathfind(char *cmd, char **command, char **envp)
+char *pathfind(char *cmd, char **envp)
 {
 	char *fullpath = NULL, *current_path, *temp_path, *tokken_path;
 
 	if (strchr(cmd, '/') != NULL && access(cmd, F_OK) == 0)
 	{
-		command[0] = cmd;
-		return (command);
+		/**command[0] = cmd;
+		return (command);**/
+		return strdup(cmd);
 	}
+
 	current_path = _getenv("PATH", envp);
+	if (!current_path)
+		return (NULL);
+
 	temp_path = strdup(current_path);
+	if (!temp_path)
+		return (NULL);
+
 	tokken_path = strtok(temp_path, ":");
 
 	while (tokken_path)
 	{
-		fullpath = malloc(strlen(cmd) + strlen(tokken_path) + 2);
+		fullpath = malloc(strlen(tokken_path) + strlen(cmd) + 2);
+		if (!fullpath)
+		{
+			free(temp_path);
+			return NULL;
+		}
 		sprintf(fullpath, "%s/%s", tokken_path, cmd);
+
 		if (access(fullpath, F_OK) == 0)
 		{
-			command[0] = fullpath;
+			/**command[0] = fullpath;**/
 			free(temp_path);
-			return (command);
+			return (fullpath);
 		}
-		tokken_path = strtok(NULL, ":");
 		free(fullpath);
+		tokken_path = strtok(NULL, ":");
 	}
 	free(temp_path);
 	return (NULL);
@@ -165,7 +179,10 @@ int execute(char *command[], char **envp, char *prog_name)
 {
 	pid_t pid;
 	int status;
-	char **temp = pathfind(command[0], command, envp);
+	char *temp = pathfind(command[0], envp);
+
+	if (!temp)
+		return (print_error(prog_name, command));
 
 	if (temp != NULL)
 	{
@@ -173,25 +190,31 @@ int execute(char *command[], char **envp, char *prog_name)
 		if (pid < 0)
 		{
 			perror("fork failed");
+			free(temp);
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0)
 		{
-			if (_getenv("PATH", envp) == NULL && access(command[0], F_OK) != 0)
+			/**if (_getenv("PATH", envp) == NULL && access(command[0], F_OK) != 0)
 			{
 				return (print_error(prog_name, command));
-			}
-			if (execve(temp[0], command, envp) == -1)
+			}**/
+			if (execve(temp, command, envp) == -1)
 			{
 				perror("error");
+				free(temp);
 				exit(EXIT_FAILURE);
 			}
 		}
-		wait(&status);
+		else
+		{
+			wait(&status);
+			free(temp);
+		}
 	}
-	else
+	/**else
 	{
 		return (print_error(prog_name, command));
-	}
+	}**/
 	return (0);
 }
