@@ -33,7 +33,7 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		if (isatty(STDIN_FILENO))
 		{
-			printf("✿  ");
+			printf("$ ");
 			fflush(stdout);
 		}
 		read_command(&command, &size, envp, argv[0]);
