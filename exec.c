@@ -183,7 +183,7 @@ int execute(char *command[], char **envp, char *prog_name)
 			}
 			if (execve(temp[0], command, envp) == -1)
 			{
-				perror("error:");
+				perror("error");
 				exit(EXIT_FAILURE);
 			}
 		}
