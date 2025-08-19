@@ -55,7 +55,7 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 	if (strcmp(*command, "exit") == 0)
 	{
 		free(*command);
-		exit(EXIT_SUCCESS);
+		exit(0);
 	}
 	if (strcmp(*command, "env") == 0)
 	{
