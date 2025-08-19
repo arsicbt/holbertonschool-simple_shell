@@ -39,11 +39,11 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 {
 	ssize_t read_len;
 	char *args_cmd[20], *token;
-	int i; 
+	int i;
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO)) 
+		if (isatty(STDIN_FILENO))
 		{
             printf("✿ ");
             fflush(stdout);
@@ -55,7 +55,10 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 			if (isatty(STDIN_FILENO) != 0)
 				printf("\n");
 			free(*command);
-			exit(EXIT_SUCCESS);
+			if (feof(stdin))
+				exit(EXIT_SUCCESS);
+			else
+				exit(EXIT_FAILURE);
 		}
 
 		if ((*command)[read_len - 1] == '\n')
@@ -89,5 +92,5 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 			execute(args_cmd, envp, prog_name);
 		}
 	}
-	
+
 }
