@@ -47,7 +47,7 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 		if (isatty(STDIN_FILENO) != 0)
 			printf("\n");
 		free(*command);
-		exit(EXIT_SUCCESS);
+		exit(EXIT_FAILURE);
 	}
 	if ((*command)[read_len - 1] == '\n')
 		(*command)[read_len - 1] = '\0';
