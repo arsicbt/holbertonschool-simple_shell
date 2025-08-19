@@ -47,7 +47,7 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 		if (isatty(STDIN_FILENO) != 0)
 			printf("\n");
 		free(*command);
-		exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	}
 	if ((*command)[read_len - 1] == '\n')
 		(*command)[read_len - 1] = '\0';
@@ -55,7 +55,7 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 	if (strcmp(*command, "exit") == 0)
 	{
 		free(*command);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	if (strcmp(*command, "env") == 0)
 	{
