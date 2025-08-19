@@ -15,10 +15,10 @@
  * Return: standard exit status: 127
  */
 
-int print_error(char *prog_name, char *command[])
+int print_error(char *prog_name, char *command, int error_code)
 {
-	fprintf(stderr, "%s: 1: %s: not found\n", prog_name, command[0]);
-	return (127);
+	fprintf(stderr, "%s: 1: %s: not found\n", prog_name, command);
+	return (error_code);
 }
 
 /**
@@ -114,8 +114,6 @@ char *pathfind(char *cmd, char **envp)
 
 	if (strchr(cmd, '/') != NULL && access(cmd, F_OK) == 0)
 	{
-		/**command[0] = cmd;
-		return (command);**/
 		return strdup(cmd);
 	}
 
@@ -141,7 +139,6 @@ char *pathfind(char *cmd, char **envp)
 
 		if (access(fullpath, F_OK) == 0)
 		{
-			/**command[0] = fullpath;**/
 			free(temp_path);
 			return (fullpath);
 		}
@@ -182,7 +179,13 @@ int execute(char *command[], char **envp, char *prog_name)
 	char *temp = pathfind(command[0], envp);
 
 	if (!temp)
-		return (print_error(prog_name, command));
+		return (print_error(prog_name, command[0], 127));
+
+	if (access(temp, X_OK) != 0)
+	{
+		free(temp);
+    	return (print_error(prog_name, command[0], 126));
+	}
 
 	if (temp != NULL)
 	{
@@ -195,10 +198,6 @@ int execute(char *command[], char **envp, char *prog_name)
 		}
 		else if (pid == 0)
 		{
-			/**if (_getenv("PATH", envp) == NULL && access(command[0], F_OK) != 0)
-			{
-				return (print_error(prog_name, command));
-			}**/
 			if (execve(temp, command, envp) == -1)
 			{
 				perror("error");
@@ -212,9 +211,5 @@ int execute(char *command[], char **envp, char *prog_name)
 			free(temp);
 		}
 	}
-	/**else
-	{
-		return (print_error(prog_name, command));
-	}**/
 	return (0);
 }
