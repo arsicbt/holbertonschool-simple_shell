@@ -23,6 +23,7 @@ int main(int argc, char *argv[], char *envp[])
 	(void) argc;
 
 	size = 0;
+	
 
 	if (argc > 1 )
 	{
@@ -30,7 +31,17 @@ int main(int argc, char *argv[], char *envp[])
 		exit(EXIT_FAILURE);
 	}
 
-	read_command(&command, &size, envp, argv[0]);
+	while (1)
+	{
+		if (isatty(STDIN_FILENO))
+		{
+			printf("✿ ");
+			fflush(stdout);
+		}
+		read_command(&command, &size, envp, argv[0]);
+	}
 	
+	read_command(&command, &size, envp, argv[0]);
+
 	return (0);
 }
