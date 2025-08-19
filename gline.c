@@ -61,9 +61,6 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 		if ((*command)[read_len - 1] == '\n')
 			(*command)[read_len - 1] = '\0';
 
-		if (space_tab(token))
-					continue;
-
 		if (strcmp(*command, "exit") == 0)
 		{
 			free(*command);
@@ -80,6 +77,9 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 			i = 0;
 			while (token != NULL && i < 20)
 			{
+				if (space_tab(token))
+					continue;
+
 				args_cmd[i] = token;
 				i++;
 				token = strtok(NULL, " ");
