@@ -23,7 +23,7 @@ int main(int argc, char *argv[], char *envp[])
 	(void) argc;
 
 	size = 0;
-	
+
 
 	if (argc > 1 )
 	{
@@ -40,8 +40,6 @@ int main(int argc, char *argv[], char *envp[])
 		}
 		read_command(&command, &size, envp, argv[0]);
 	}
-	
-	read_command(&command, &size, envp, argv[0]);
 
 	return (0);
 }

@@ -44,12 +44,16 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 	read_len = getline(command, size, stdin);
 	if (read_len == -1)
 	{
-		if (isatty(STDIN_FILENO))
+		if (feof(stdin))
 		{
-            printf("✿ ");
-            fflush(stdout);
-        }
-
+			printf("\n");
+			exit(EXIT_SUCCESS);
+		}
+		else
+		{
+			exit(EXIT_FAILURE);
+		}
+	}
 	if ((*command)[read_len - 1] == '\n')
 		(*command)[read_len - 1] = '\0';
 
@@ -69,15 +73,9 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 		i = 0;
 		while (token != NULL && i < 20)
 		{
-			if (isatty(STDIN_FILENO) != 0)
-				printf("\n");
-			free(*command);
-			if (feof(stdin))
-				exit(EXIT_SUCCESS);
-			else
-				exit(EXIT_FAILURE);
+			args_cmd[i++] = token;
+			token = strtok(NULL, " ");
 		}
-
 		args_cmd[i] = NULL;
 
 		execute(args_cmd, envp, prog_name);
