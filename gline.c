@@ -35,7 +35,7 @@ int space_tab(char *str)
  * Return: void (but calls exit() on EOF)
  */
 
-void read_command(char **command, size_t *size, char **envp, char *prog_name)
+void check_command(char **command, size_t *size, char **envp, char *prog_name)
 {
 	ssize_t read_len;
 	char *args_cmd[20], *token;

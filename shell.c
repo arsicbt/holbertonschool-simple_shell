@@ -38,7 +38,7 @@ int main(int argc, char *argv[], char *envp[])
 			printf("✿ ");
 			fflush(stdout);
 		}
-		read_command(&command, &size, envp, argv[0]);
+		check_command(&command, &size, envp, argv[0]);
 	}
 
 	return (0);
