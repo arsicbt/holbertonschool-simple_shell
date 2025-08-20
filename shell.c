@@ -19,17 +19,16 @@
 int main(int argc, char *argv[], char *envp[])
 {
 	size_t size;
-	char *command = NULL, status = 0;
+	char *command = NULL;
 	(void) argc;
 
 	size = 0;
 
-	if (argc > 1)
+	if (argc > 1 )
 	{
 		printf("%s: command does not exist\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
-
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
@@ -37,11 +36,7 @@ int main(int argc, char *argv[], char *envp[])
 			printf("✿ ");
 			fflush(stdout);
 		}
-		status = check_command(&command, &size, envp, argv[0]);
-
-		if (!isatty(STDIN_FILENO))
-            break;
+		read_command(&command, &size, envp, argv[0]);
 	}
-
-	return (status);
+	return (0);
 }

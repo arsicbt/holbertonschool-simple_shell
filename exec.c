@@ -11,15 +11,14 @@
  * Parameters:
  * @prog_name: Name of the executing program
  * @command: An array of strings where command[0] is the name of the command
- * @error_code: The adapted correct error code to return
  *
- * Return: standard exit status: correct error code
+ * Return: standard exit status: 127
  */
 
-int print_error(char *prog_name, char *command, int error_code)
+int print_error(char *prog_name, char *command[])
 {
-	fprintf(stderr, "%s: 1: %s: not found\n", prog_name, command);
-	return (error_code);
+	fprintf(stderr, "%s: 1: %s: not found\n", prog_name, command[0]);
+	return (127);
 }
 
 /**
@@ -43,7 +42,6 @@ int print_env(char **envp)
 
 	if (envp == NULL)
 		return (-1);
-
 	while (envp[i])
 	{
 		printf("%s\n", envp[i++]);
@@ -102,6 +100,7 @@ char *_getenv(const char *name, char **envp)
  *
  * Parameters:
  * @cmd: The command name
+ * @command: The array of command arguments
  * @envp: Array of environment variables
  *
  * Return:
@@ -113,9 +112,9 @@ char *pathfind(char *cmd, char **envp)
 {
 	char *fullpath = NULL, *current_path, *temp_path, *tokken_path;
 
-	if (strchr(cmd, '/') != NULL && access(cmd, X_OK) == 0)
+	if (strchr(cmd, '/') != NULL && access(cmd, F_OK) == 0)
 	{
-		return (strdup(cmd));
+		return strdup(cmd);
 	}
 
 	current_path = _getenv("PATH", envp);
@@ -134,12 +133,13 @@ char *pathfind(char *cmd, char **envp)
 		if (!fullpath)
 		{
 			free(temp_path);
-			return (NULL);
+			return NULL;
 		}
 		sprintf(fullpath, "%s/%s", tokken_path, cmd);
 
-		if (access(fullpath, X_OK) == 0)
+		if (access(fullpath, F_OK) == 0)
 		{
+			/**command[0] = fullpath;**/
 			free(temp_path);
 			return (fullpath);
 		}
@@ -180,40 +180,31 @@ int execute(char *command[], char **envp, char *prog_name)
 	char *temp = pathfind(command[0], envp);
 
 	if (!temp)
-		return (print_error(prog_name, command[0], 127));
+		return (print_error(prog_name, command));
 
-	if (access(temp, X_OK) != 0)
+	if (temp != NULL)
 	{
-		free(temp);
-		return (print_error(prog_name, command[0], 126));
-	}
-
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork failed");
-		free(temp);
-		exit(EXIT_FAILURE);
-	}
-	else if (pid == 0)
-	{
-		if (execve(temp, command, envp) == -1)
+		pid = fork();
+		if (pid < 0)
 		{
-			perror("error");
+			perror("fork failed");
 			free(temp);
-			exit(127);
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
+		{
+			if (execve(temp, command, envp) == -1)
+			{
+				perror("error");
+				free(temp);
+				exit(EXIT_FAILURE);
+			}
+		}
+		else
+		{
+			wait(&status);
+			free(temp);
 		}
 	}
-	else
-    {
-        waitpid(pid, &status, 0);
-        free(temp);
-
-        if (WIFEXITED(status))
-            return (WEXITSTATUS(status));  /* <--- renvoie le vrai code de sortie */
-        else
-            return (EXIT_FAILURE);
-    }
-	return (EXIT_FAILURE);
+	return (0);
 }
-
