@@ -73,12 +73,12 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 		i = 0;
 		while (token != NULL && i < 20)
 		{
-			args_cmd[i++] = token;
+			args_cmd[i] = token;
+			i++;
 			token = strtok(NULL, " ");
 		}
 		args_cmd[i] = NULL;
 
 		execute(args_cmd, envp, prog_name);
 	}
-
 }
