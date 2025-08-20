@@ -62,9 +62,15 @@ ssize_t read_command(char **command, size_t *size)
  * handle_builtin - Handles built-in commands (exit, env)
  * @command: The command string
  * @envp: Environment variables
+ * 
+ * Return: 1 if the command is a built-in (exit or env),
+ * 0 otherwise.
  */
-void handle_builtin(char *command, char **envp)
+int handle_builtin(char *command, char **envp)
 {
+	if (!command)
+		return (0);
+
 	if (strcmp(command, "exit") == 0)
 	{
 		free(command);
@@ -73,7 +79,9 @@ void handle_builtin(char *command, char **envp)
 	if (strcmp(command, "env") == 0)
 	{
 		print_env(envp);
+		return (1);
 	}
+	return (0);
 }
 
 /**
@@ -87,20 +95,21 @@ void parse_and_execute(char *command, char **envp, char *prog_name)
 	char *args_cmd[20], *token;
 	int i = 0;
 
-	if (space_tab(command))
+	if (space_tab(command) && command[0] == '\0')
 		return;
 
-	if (command[0] != '\0')
+	if (handle_builtin(command, envp))
+		return;
+
+	token = strtok(command, " ");
+	while (token != NULL && i < 20)
 	{
-		token = strtok(command, " ");
-		while (token != NULL && i < 20)
-		{
-			args_cmd[i++] = token;
-			token = strtok(NULL, " ");
-		}
-		args_cmd[i] = NULL;
-		execute(args_cmd, envp, prog_name);
+		args_cmd[i++] = token;
+		token = strtok(NULL, " ");
 	}
+	args_cmd[i] = NULL;
+
+	execute(args_cmd, envp, prog_name);
 }
 
 /**
@@ -113,8 +122,6 @@ void parse_and_execute(char *command, char **envp, char *prog_name)
 void check_command(char **command, size_t *size, char **envp, char *prog_name)
 {
 	read_command(command, size);
-
-	handle_builtin(*command, envp);
 
 	parse_and_execute(*command, envp, prog_name);
 }

@@ -43,6 +43,7 @@ int print_env(char **envp)
 
 	if (envp == NULL)
 		return (-1);
+
 	while (envp[i])
 	{
 		printf("%s\n", envp[i++]);
@@ -112,7 +113,7 @@ char *pathfind(char *cmd, char **envp)
 {
 	char *fullpath = NULL, *current_path, *temp_path, *tokken_path;
 
-	if (strchr(cmd, '/') != NULL && access(cmd, F_OK) == 0)
+	if (strchr(cmd, '/') != NULL && access(cmd, X_OK) == 0)
 	{
 		return (strdup(cmd));
 	}
@@ -137,7 +138,7 @@ char *pathfind(char *cmd, char **envp)
 		}
 		sprintf(fullpath, "%s/%s", tokken_path, cmd);
 
-		if (access(fullpath, F_OK) == 0)
+		if (access(fullpath, X_OK) == 0)
 		{
 			free(temp_path);
 			return (fullpath);
@@ -186,29 +187,28 @@ int execute(char *command[], char **envp, char *prog_name)
 		free(temp);
 		return (print_error(prog_name, command[0], 126));
 	}
-	if (temp != NULL)
+
+	pid = fork();
+	if (pid < 0)
 	{
-		pid = fork();
-		if (pid < 0)
+		perror("fork failed");
+		free(temp);
+		exit(EXIT_FAILURE);
+	}
+	else if (pid == 0)
+	{
+		if (execve(temp, command, envp) == -1)
 		{
-			perror("fork failed");
+			perror("error");
 			free(temp);
 			exit(EXIT_FAILURE);
 		}
-		else if (pid == 0)
-		{
-			if (execve(temp, command, envp) == -1)
-			{
-				perror("error");
-				free(temp);
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-		{
-			wait(&status);
-			free(temp);
-		}
+	}
+	else
+	{
+		waitpid(pid, &status, 0);
+		free(temp);
 	}
 	return (0);
 }
+
