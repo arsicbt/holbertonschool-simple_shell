@@ -68,19 +68,39 @@ ssize_t read_command(char **command, size_t *size)
  */
 int handle_builtin(char *command, char **envp)
 {
+	char *copy, *arg, *token;
+	int status;
+
 	if (!command)
 		return (0);
 
-	if (strcmp(command, "exit") == 0)
+	copy = strdup(command);
+    if (!copy)
 	{
-		free(command);
-		exit(EXIT_SUCCESS);
+        return (0);
 	}
-	if (strcmp(command, "env") == 0)
+	token = strtok(copy, " \t");
+	if (token && strcmp(token, "exit") == 0)
+	{
+		arg = strtok(NULL, " \t");
+		if (arg)
+            status = atoi(arg);
+
+		else
+            status = EXIT_SUCCESS;
+		
+		free(copy);
+        free(command);
+        exit(status);
+	}
+	
+	if (token && strcmp(command, "env") == 0)
 	{
 		print_env(envp);
+		free(copy);
 		return (1);
 	}
+	free(copy);
 	return (0);
 }
 
@@ -90,16 +110,16 @@ int handle_builtin(char *command, char **envp)
  * @envp: Environment variables
  * @prog_name: Program name
  */
-void parse_and_execute(char *command, char **envp, char *prog_name)
+int parse_and_execute(char *command, char **envp, char *prog_name)
 {
 	char *args_cmd[20], *token;
 	int i = 0;
 
 	if (space_tab(command) && command[0] == '\0')
-		return;
+		return (0);
 
 	if (handle_builtin(command, envp))
-		return;
+		return (0);
 
 	token = strtok(command, " ");
 	while (token != NULL && i < 20)
@@ -109,7 +129,7 @@ void parse_and_execute(char *command, char **envp, char *prog_name)
 	}
 	args_cmd[i] = NULL;
 
-	execute(args_cmd, envp, prog_name);
+	return execute(args_cmd, envp, prog_name);
 }
 
 /**
@@ -119,9 +139,9 @@ void parse_and_execute(char *command, char **envp, char *prog_name)
  * @envp: Environment variables
  * @prog_name: Program name
  */
-void check_command(char **command, size_t *size, char **envp, char *prog_name)
+int check_command(char **command, size_t *size, char **envp, char *prog_name)
 {
 	read_command(command, size);
 
-	parse_and_execute(*command, envp, prog_name);
+	return (parse_and_execute(*command, envp, prog_name));
 }

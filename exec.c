@@ -201,14 +201,19 @@ int execute(char *command[], char **envp, char *prog_name)
 		{
 			perror("error");
 			free(temp);
-			exit(EXIT_FAILURE);
+			exit(127);
 		}
 	}
 	else
-	{
-		waitpid(pid, &status, 0);
-		free(temp);
-	}
-	return (0);
+    {
+        waitpid(pid, &status, 0);
+        free(temp);
+
+        if (WIFEXITED(status))
+            return (WEXITSTATUS(status));  /* <--- renvoie le vrai code de sortie */
+        else
+            return (EXIT_FAILURE);
+    }
+	return (EXIT_FAILURE);
 }
 

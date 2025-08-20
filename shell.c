@@ -19,7 +19,7 @@
 int main(int argc, char *argv[], char *envp[])
 {
 	size_t size;
-	char *command = NULL;
+	char *command = NULL, status = 0;
 	(void) argc;
 
 	size = 0;
@@ -34,11 +34,14 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		if (isatty(STDIN_FILENO))
 		{
-			printf("$ ");
+			printf("✿ ");
 			fflush(stdout);
 		}
-		check_command(&command, &size, envp, argv[0]);
+		status = check_command(&command, &size, envp, argv[0]);
+
+		if (!isatty(STDIN_FILENO))
+            break;
 	}
 
-	return (0);
+	return (status);
 }
