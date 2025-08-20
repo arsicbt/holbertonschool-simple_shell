@@ -11,8 +11,9 @@
  * Parameters:
  * @prog_name: Name of the executing program
  * @command: An array of strings where command[0] is the name of the command
+ * @error_code: The adapted correct error code to return
  *
- * Return: standard exit status: 127
+ * Return: standard exit status: correct error code
  */
 
 int print_error(char *prog_name, char *command, int error_code)
@@ -114,7 +115,7 @@ char *pathfind(char *cmd, char **envp)
 
 	if (strchr(cmd, '/') != NULL && access(cmd, F_OK) == 0)
 	{
-		return strdup(cmd);
+		return (strdup(cmd));
 	}
 
 	current_path = _getenv("PATH", envp);
@@ -133,7 +134,7 @@ char *pathfind(char *cmd, char **envp)
 		if (!fullpath)
 		{
 			free(temp_path);
-			return NULL;
+			return (NULL);
 		}
 		sprintf(fullpath, "%s/%s", tokken_path, cmd);
 
@@ -184,9 +185,8 @@ int execute(char *command[], char **envp, char *prog_name)
 	if (access(temp, X_OK) != 0)
 	{
 		free(temp);
-    	return (print_error(prog_name, command[0], 126));
+		return (print_error(prog_name, command[0], 126));
 	}
-
 	if (temp != NULL)
 	{
 		pid = fork();
