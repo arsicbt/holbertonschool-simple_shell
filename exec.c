@@ -18,7 +18,7 @@
 int print_error(char *prog_name, char *command[])
 {
 	fprintf(stderr, "%s: 1: %s: not found\n", prog_name, command[0]);
-	return (127);
+	exit(127);
 }
 
 /**
