@@ -38,8 +38,6 @@ int main(int argc, char *argv[], char *envp[])
 			fflush(stdout);
 		}
 		exit_status = read_command(&command, &size, envp, argv[0], exit_status);
-		if (exit_status == 127 || exit_status == 126 || exit_status == 2)
-			return (exit_status);
 	}
 	return (exit_status);
 }
