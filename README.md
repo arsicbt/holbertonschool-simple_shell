@@ -59,7 +59,7 @@ Fonctionnement :
 
 ## Flowchart
 
-
+<img width="2880" height="985" alt="flawchart simple shell" src="https://github.com/user-attachments/assets/9d59bf34-f1d8-4c0d-a71f-f3a5cc339f42" />
 
 ## Conclusion ⭐
 
