@@ -64,7 +64,7 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 	}
 	if ((*command)[read_len - 1] == '\n')
 		(*command)[read_len - 1] = '\0';
-	if (strcmp(*command, "exit") == 0)
+	if (strcmp(command[0], "exit") == 0)
 	{
 		free(*command);
 		exit(EXIT_SUCCESS);
