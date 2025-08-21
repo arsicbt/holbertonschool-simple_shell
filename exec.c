@@ -100,7 +100,6 @@ char *_getenv(const char *name, char **envp)
  *
  * Parameters:
  * @cmd: The command name
- * @command: The array of command arguments
  * @envp: Array of environment variables
  *
  * Return:
@@ -114,7 +113,7 @@ char *pathfind(char *cmd, char **envp)
 
 	if (strchr(cmd, '/') != NULL && access(cmd, F_OK) == 0)
 	{
-		return strdup(cmd);
+		return (strdup(cmd));
 	}
 
 	current_path = _getenv("PATH", envp);
@@ -204,6 +203,7 @@ int execute(char *command[], char **envp, char *prog_name)
 		{
 			wait(&status);
 			free(temp);
+			return ((status >> 8) & 0xFF);
 		}
 	}
 	return (0);
