@@ -196,7 +196,7 @@ int execute(char *command[], char **envp, char *prog_name)
 			{
 				perror("error");
 				free(temp);
-				exit(EXIT_FAILURE);
+				exit(126);
 			}
 		}
 		else
