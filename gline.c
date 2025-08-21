@@ -1,5 +1,18 @@
 #include "shell.h"
 
+/**
+ * space_tab - Checks if a string contains only spaces and/or tabs.
+ *
+ * @str: The input string to check.
+ *
+ * Return:
+ *   1 if the string is NULL or contains only space and tab characters,
+ *   0 if the string contains any other character.
+ *
+ * This function is useful for detecting lines that are visually empty
+ * but may contain whitespace characters like spaces or tabs.
+ */
+
 int space_tab(char *str)
 {
 	int i = 0;
@@ -9,9 +22,9 @@ int space_tab(char *str)
 
 	while (str[i] != '\0')
 	{
-			if (str[i] != ' ' && str[i] != '\t')
-				return (0);
-			i++;
+		if (str[i] != ' ' && str[i] != '\t')
+			return (0);
+		i++;
 	}
 	return (1);
 }
@@ -51,7 +64,6 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 	}
 	if ((*command)[read_len - 1] == '\n')
 		(*command)[read_len - 1] = '\0';
-
 	if (strcmp(*command, "exit") == 0)
 	{
 		free(*command);
@@ -63,9 +75,8 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 		return;
 	}
 	if (space_tab(*command))
-	{
 		return;
-	}
+
 	if ((*command)[0] != '\0')
 	{
 		token = strtok(*command, " ");
@@ -77,7 +88,6 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 			token = strtok(NULL, " ");
 		}
 		args_cmd[i] = NULL;
-
 		execute(args_cmd, envp, prog_name);
 	}
 }
