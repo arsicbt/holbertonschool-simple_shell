@@ -20,6 +20,7 @@ int main(int argc, char *argv[], char *envp[])
 {
 	size_t size;
 	char *command = NULL;
+	int exit_status = 0;
 	(void) argc;
 
 	size = 0;
@@ -36,7 +37,9 @@ int main(int argc, char *argv[], char *envp[])
 			printf("✿ ");
 			fflush(stdout);
 		}
-		read_command(&command, &size, envp, argv[0]);
+		exit_status = read_command(&command, &size, envp, argv[0], exit_status);
+		if (exit_status == 127 || exit_status == 126 || exit_status == 2)
+			return (exit_status);
 	}
-	return (0);
+	return (exit_status);
 }

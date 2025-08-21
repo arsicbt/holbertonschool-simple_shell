@@ -18,7 +18,7 @@
 int print_error(char *prog_name, char *command[])
 {
 	fprintf(stderr, "%s: 1: %s: not found\n", prog_name, command[0]);
-	exit (127);
+	return (127);
 }
 
 /**
@@ -41,7 +41,7 @@ int print_env(char **envp)
 	int i = 0;
 
 	if (envp == NULL)
-		return (-1);
+		return (2);
 	while (envp[i])
 	{
 		printf("%s\n", envp[i++]);
@@ -138,6 +138,7 @@ char *pathfind(char *cmd, char **envp)
 
 		if (access(fullpath, F_OK) == 0)
 		{
+			/**command[0] = fullpath;**/
 			free(temp_path);
 			return (fullpath);
 		}
@@ -187,7 +188,7 @@ int execute(char *command[], char **envp, char *prog_name)
 		{
 			perror("fork failed");
 			free(temp);
-			exit(EXIT_FAILURE);
+			return (126);
 		}
 		else if (pid == 0)
 		{
@@ -195,15 +196,14 @@ int execute(char *command[], char **envp, char *prog_name)
 			{
 				perror("error");
 				free(temp);
-				exit(EXIT_FAILURE);
+				exit(126);
 			}
 		}
 		else
 		{
 			wait(&status);
 			free(temp);
-			return ((status >> 8) & 0xFF);
 		}
 	}
-	return (0);
+	return ((status >> 8) & 0xFF);
 }

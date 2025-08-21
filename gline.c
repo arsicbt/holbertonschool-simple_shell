@@ -48,7 +48,8 @@ int space_tab(char *str)
  * Return: void (but calls exit() on EOF)
  */
 
-void read_command(char **command, size_t *size, char **envp, char *prog_name)
+int read_command(char **command, size_t *size, char **envp, char *prog_name,
+int exit_status)
 {
 	ssize_t read_len;
 	char *args_cmd[20], *token;
@@ -60,25 +61,22 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 		if (isatty(STDIN_FILENO) != 0)
 			printf("\n");
 		free(*command);
-		exit(EXIT_SUCCESS);
+		exit(exit_status);
 	}
 	if ((*command)[read_len - 1] == '\n')
 		(*command)[read_len - 1] = '\0';
-	if (strcmp(command[0], "exit") == 0) 
+	if (strcmp(*command, "exit") == 0)
 	{
-    	int status = 0;
-    	if (command[1] != NULL) 
-        	status = atoi(command[1]);
-    	exit(status);
+		free(*command);
+		exit(exit_status);
 	}
-
 	if (strcmp(*command, "env") == 0)
 	{
-		print_env(envp);
-		return;
+		exit_status = print_env(envp);
+		return (exit_status);
 	}
 	if (space_tab(*command))
-		return;
+		return (exit_status);
 
 	if ((*command)[0] != '\0')
 	{
@@ -91,6 +89,7 @@ void read_command(char **command, size_t *size, char **envp, char *prog_name)
 			token = strtok(NULL, " ");
 		}
 		args_cmd[i] = NULL;
-		execute(args_cmd, envp, prog_name);
+		exit_status = execute(args_cmd, envp, prog_name);
 	}
+	return (exit_status);
 }
