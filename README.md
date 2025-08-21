@@ -57,6 +57,9 @@ Fonctionnement :
 
 **Mémoire et sécurité :** nous veillons à libérer correctement les allocations dynamiques
 
+## Flowchart
+
+
 
 ## Conclusion ⭐
 
