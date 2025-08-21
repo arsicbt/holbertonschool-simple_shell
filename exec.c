@@ -18,7 +18,7 @@
 int print_error(char *prog_name, char *command[])
 {
 	fprintf(stderr, "%s: 1: %s: not found\n", prog_name, command[0]);
-	exit(127);
+	return (127);
 }
 
 /**
@@ -100,6 +100,7 @@ char *_getenv(const char *name, char **envp)
  *
  * Parameters:
  * @cmd: The command name
+ * @command: The array of command arguments
  * @envp: Array of environment variables
  *
  * Return:
@@ -113,7 +114,7 @@ char *pathfind(char *cmd, char **envp)
 
 	if (strchr(cmd, '/') != NULL && access(cmd, F_OK) == 0)
 	{
-		return (strdup(cmd));
+		return strdup(cmd);
 	}
 
 	current_path = _getenv("PATH", envp);
@@ -132,7 +133,7 @@ char *pathfind(char *cmd, char **envp)
 		if (!fullpath)
 		{
 			free(temp_path);
-			return (NULL);
+			return NULL;
 		}
 		sprintf(fullpath, "%s/%s", tokken_path, cmd);
 
