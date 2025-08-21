@@ -44,6 +44,7 @@ int space_tab(char *str)
  * @size: Pointer to a variable holding the size of the buffer
  * @envp: Environment variables passed to the execute() function
  * @prog_name: Name of the executing program
+ * @exit_status: variable that stock the exit code
  *
  * Return: void (but calls exit() on EOF)
  */
@@ -77,7 +78,6 @@ int exit_status)
 	}
 	if (space_tab(*command))
 		return (exit_status);
-
 	if ((*command)[0] != '\0')
 	{
 		token = strtok(*command, " ");

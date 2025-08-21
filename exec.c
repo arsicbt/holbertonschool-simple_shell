@@ -132,7 +132,7 @@ char *pathfind(char *cmd, char **envp)
 		if (!fullpath)
 		{
 			free(temp_path);
-			return NULL;
+			return (NULL);
 		}
 		sprintf(fullpath, "%s/%s", tokken_path, cmd);
 
