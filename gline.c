@@ -3,7 +3,7 @@
 /**
  * space_tab - Checks if a string contains only spaces and/or tabs.
  *
- * @str: The input string to check.
+ * @command: The input string to check.
  *
  * Return:
  *   1 if the string is NULL or contains only space and tab characters,
@@ -13,16 +13,16 @@
  * but may contain whitespace characters like spaces or tabs.
  */
 
-int space_tab(char *str)
+int space_tab(char *command)
 {
 	int i = 0;
 
-	if (str == NULL)
+	if (command == NULL)
 		return (1);
 
-	while (str[i] != '\0')
+	while (command[i] != '\0')
 	{
-		if (str[i] != ' ' && str[i] != '\t')
+		if (command[i] != ' ' && command[i] != '\t')
 			return (0);
 		i++;
 	}
