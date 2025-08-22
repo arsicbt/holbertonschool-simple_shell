@@ -138,7 +138,6 @@ char *pathfind(char *cmd, char **envp)
 
 		if (access(fullpath, F_OK) == 0)
 		{
-			/**command[0] = fullpath;**/
 			free(temp_path);
 			return (fullpath);
 		}
