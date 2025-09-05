@@ -7,3 +7,36 @@ Simple Shell \- produces output according to a format
 .B #include "main.h"
 .br
 .B int _main(const char *format, ...);
+
+.SH DESCRIPTION
+
+simple Shell is a minimal Unix shell that provides an interface for users to interact with the operating system through typed commands. It supports built-in commands such as ls, env and exit.
+
+The shell reads user input, parses it into commands and arguments, and then either executes built-in commands directly or creates child processes to run external programs.
+
+This shell is intended for educational purposes.
+
+.SH RETURN VALUE
+
+Simple Shell returns 0, when it exits with success, or superior to 0 when an error occurs.
+
+.SH EXAMPLES
+
+.P 
+✿ ls
+.br
+file_1 file_2 file_3
+.br
+✿ /bin/ls -l
+.br
+-rw-r--r-- 1 John john     98 spt 04 16:20 file_1
+.brq
+-rwxr-xr-x 1 John John 1888 spt 05 11:03 file_2
+.br
+-rw-r--r-- 1 John John  421 spt 05 11:03 file_3
+
+.SH AUTHOR
+
+Arsinoé CHOBERT <https://github.com/arcicbt>
+.br
+Matis NEVEU <https://github.com/niimatik>
